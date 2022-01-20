@@ -45,7 +45,5 @@ buttonToStartTimer.addEventListener('click', () => {
     const secondsEl = (document.querySelector('[data-seconds]').textContent = seconds
       .toString()
       .padStart(2, 0));
-    
   }, 1000);
 });
-
