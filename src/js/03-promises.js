@@ -14,14 +14,17 @@ function createPromise(position, delay) {
     setTimeout(()=>{
   const shouldResolve = Math.random() > 0.3;
   if (shouldResolve) {
-    res(`✅ Fulfilled promise ${position} in ${delay}ms`);
+    res ({position,delay})
   } else {
-    rej(`❌ Rejected promise ${position} in ${delay}ms`);
+    rej ({position,delay})
   }},delay)
   })
-  promise.then(value =>{
-    console.log(value);
+  .then(({ position, delay }) => {
+    Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
   })
+  .catch(({ position, delay }) => {
+    Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+  });
 }
 function promiseClick(event){
   let delay=Number(userDelayEl.value)
@@ -30,9 +33,9 @@ function promiseClick(event){
   // console.log(NumberOfRecursions);
   event.preventDefault()
   for (let i = 0; i < NumberOfRecursions; i++) {
+    createPromise(i+1,delay)
     delay=delay+step
     console.log(delay);
-    createPromise(i,delay)
     // console.log(delay);
    }
 }
