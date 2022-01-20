@@ -9,38 +9,30 @@ const form = document.querySelector('.form');
 
 form.addEventListener('click', promiseClick);
 
-
-
-
-function promiseClick (event) {
-  event.preventDefault();
-  let firstDelay = Number(userDelayEl.value);
-  let delayStep = Number(userStepEl.value);
-  let amount = Number(userAmountEl.value);
-for (let i = 1; i <= amount; i+=1) {
-  createPromise(i, firstDelay);
-  firstDelay += delayStep;
-}
-};
-
-
-
 function createPromise(position, delay) {
-  const promise = new Promise((resolve, reject) => {
-    const shouldResolve = Math.random() > 0.3;
-setTimeout(() => {
-    if (shouldResolve) {
-      resolve({ position, delay });
-    } else {
-      reject({ position, delay });
-    }
-  }, delay)
-  });
-  promise
-  .then(({ position, delay }) => {
-    Notiflix.Notify.success(`Fulfilled promise ${position} in ${delay}ms`);
+  const promise = new Promise((res,rej)=>{
+    setTimeout(()=>{
+  const shouldResolve = Math.random() > 0.3;
+  if (shouldResolve) {
+    res(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  } else {
+    rej(`❌ Rejected promise ${position} in ${delay}ms`);
+  }},delay)
   })
-  .catch(({ position, delay }) => {
-    Notiflix.Notify.failure(`Rejected promise ${position} in ${delay}ms`);
-  });
-};
+  promise.then(value =>{
+    console.log(value);
+  })
+}
+function promiseClick(event){
+  let delay=Number(userDelayEl.value)
+  let step=Number(userStepEl.value)
+  let NumberOfRecursions=Number(userAmountEl.value)
+  // console.log(NumberOfRecursions);
+  event.preventDefault()
+  for (let i = 0; i < NumberOfRecursions; i++) {
+    delay=delay+step
+    console.log(delay);
+    createPromise(i,delay)
+    // console.log(delay);
+   }
+}
